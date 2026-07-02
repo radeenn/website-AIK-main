@@ -1,0 +1,5 @@
+Perbaikan gambar terbaru:
+- Gambar gerakan sudah dirapikan ulang langsung di file project.
+- Area putih berlebih pada gambar dipotong agar objek tampil lebih besar dan rapi.
+- Tampilan card/detail gambar diperhalus supaya background menyatu dan tidak terlihat berantakan.
+- File tetap memakai format WebP agar ringan.
