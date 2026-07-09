@@ -3,32 +3,27 @@
 @section('title', 'Daftar Gerakan Sholat | Tuntun Sholat')
 
 @section('content')
-@php($isChildMode = ($activeModeSlug ?? 'dewasa') === 'anak-anak')
-<section class="container-shell section-space">
+<section class="container-shell movements-page">
     <div class="page-header">
         <div>
-            <span class="eyebrow"><i data-lucide="{{ $isChildMode ? 'map' : 'list-checks' }}" class="h-4 w-4"></i> {{ $isChildMode ? 'Peta belajar' : 'Belajar berurutan' }}</span>
-            <h1>{{ $isChildMode ? 'Petualangan Gerakan Sholat' : 'Daftar Gerakan Sholat' }}</h1>
-            <p>{{ $isChildMode ? 'Pilih langkahnya satu per satu. Setiap halaman punya gambar, arti singkat, dan tombol audio agar belajar terasa ringan.' : 'Pilih gerakan untuk membuka gambar, bacaan Arab, transliterasi latin, terjemahan, dan audio MP3.' }}</p>
-            @if($isChildMode)
-                <div class="kid-guide" aria-label="Panduan belajar anak">
-                    <span>1. Lihat gambar</span>
-                    <span>2. Dengar audio</span>
-                    <span>3. Ikuti pelan-pelan</span>
-                </div>
-            @endif
+            <span class="eyebrow">Belajar Berurutan</span>
+            <h1>Daftar Gerakan Sholat</h1>
+            <p>Pilih gerakan untuk mempelajari posisi, bacaan Arab, transliterasi latin, arti, dan audio.</p>
         </div>
-        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-            <x-mode-switcher />
-            @if($movements->first())
-                <a href="{{ route('movements.show', ['slug' => $movements->first()->slug, 'autoplay' => 1]) }}" class="btn-primary" onclick="sessionStorage.setItem('sholat.autoplay','1')">
-                    <i data-lucide="play" class="h-4 w-4"></i> {{ $isChildMode ? 'Putar Dari Awal' : 'Putar Berurutan' }}
-                </a>
-            @endif
-        </div>
+        <x-mode-switcher />
     </div>
 
-    <div class="movement-path mt-9">
+    <form action="{{ route('movements.index') }}" method="GET" class="search-form" role="search">
+        <input
+            type="search"
+            name="q"
+            value="{{ $search }}"
+            placeholder="Cari gerakkan sholat"
+            aria-label="Cari gerakkan sholat"
+        >
+    </form>
+
+    <div class="movement-grid">
         @forelse($movements as $movement)
             <x-movement-card :movement="$movement" />
         @empty

@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body class="min-h-screen bg-[#f7f4ec] text-slate-800 antialiased {{ ($activeModeSlug ?? 'dewasa') === 'anak-anak' ? 'mode-child' : 'mode-adult' }}">
+<body class="min-h-screen antialiased {{ ($activeModeSlug ?? 'dewasa') === 'anak-anak' ? 'mode-child' : 'mode-adult' }}">
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
     <x-navbar />
     <x-identity-header />
@@ -22,7 +22,6 @@
         @yield('content')
     </main>
 
-    <x-footer />
     @stack('scripts')
 </body>
 </html>
