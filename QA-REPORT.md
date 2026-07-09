@@ -1,58 +1,36 @@
-# Laporan Pemeriksaan Project Tuntun Sholat
+# QA Report
 
-Tanggal pemeriksaan: 25 Juni 2026
+## Pemeriksaan revisi
 
-## Pemeriksaan yang berhasil dijalankan
+- Route publik tersedia: `/`, `/gerakan`, `/gerakan/{slug}`, `/identitas`, dan `/mode/{kategori}`.
+- Route dan tampilan dashboard admin sudah dihapus.
+- Audio MP3 lokal tersedia pada `public/audios`.
+- Seeder mengisi path audio lokal ke tabel `bacaan`.
+- Header menampilkan identitas kelompok sesuai kebutuhan modul.
+- Tampilan sudah dipangkas agar fokus pada pembelajaran gerakan dan bacaan sholat.
 
-- Seluruh file PHP pada folder `app`, `bootstrap`, `config`, `database`, `public`, `routes`, dan `tests` lolos `php -l` tanpa kesalahan sintaks.
-- `resources/js/app.js` lolos pemeriksaan sintaks Node.js.
-- `npm install` berhasil dan menghasilkan `package-lock.json`.
-- `npm run build` berhasil menggunakan Vite 8; manifest, CSS produksi, dan JavaScript produksi tersedia di `public/build`.
-- `composer.json` dan `package.json` merupakan JSON valid.
-- Semua 35 referensi named route yang dipakai kode memiliki definisi route yang sesuai.
-- Semua Blade component yang digunakan tersedia.
-- Semua aset statis yang dirujuk dari Blade tersedia.
-- Seluruh media seed tersedia: 13 ilustrasi gerakan, satu MP3 contoh, dan satu MP4 contoh.
-- File MP3 contoh dapat dibaca oleh `ffprobe` dengan durasi sekitar 2 detik.
-- File MP4 contoh dapat dibaca oleh `ffprobe` dengan durasi 4 detik.
-- Project berisi migration, model, factory, seeder, controller, Form Request, middleware, service, Blade component, halaman publik, CRUD admin, dan feature test.
-
-## Pemeriksaan yang belum dapat dijalankan di lingkungan pembuatan
-
-`composer` tidak tersedia di lingkungan pembuatan. Karena dependency PHP belum dapat dipasang, proses berikut belum dapat dijalankan langsung di sini:
-
-- `composer install`
-- booting framework melalui `php artisan`
-- migration MySQL secara nyata
-- browser test end-to-end
-- `php artisan test`
-
-Hal ini bukan berarti perintah tersebut gagal; pengujian runtime perlu diselesaikan pada komputer yang memiliki Composer dan akses pemasangan dependency.
-
-## Pemeriksaan runtime yang perlu dijalankan setelah ekstraksi
+## Yang perlu diuji setelah instalasi dependency
 
 ```bash
 composer install
-copy .env.example .env
-php artisan key:generate
-php artisan storage:link
-php artisan migrate:fresh --seed
 npm install
+php artisan migrate:fresh --seed
 npm run build
-php artisan route:list
-php artisan test
 php artisan serve
 ```
 
-Untuk mode pengembangan aset, gunakan `npm run dev` sebagai pengganti `npm run build`.
+Checklist browser:
 
-## Akun uji admin
+- Mode Dewasa dan Anak-anak dapat dipilih.
+- Semua gerakan tampil sesuai urutan.
+- Halaman detail menampilkan gambar dan bacaan.
+- Audio dapat diputar.
+- Autoplay berpindah ke gerakan berikutnya setelah audio selesai.
+- Tampilan responsif pada mobile, tablet, dan desktop.
 
-- Email: `admin@tuntunsholat.test`
-- Kata sandi: `password123`
+## QA Revisi Desain Lanjutan
 
-Ganti kata sandi sebelum deployment.
-
-## Catatan konten keagamaan
-
-Semua bacaan seed masih berupa placeholder yang disengaja. Jangan memublikasikan aplikasi sebelum teks Arab, transliterasi, terjemahan, sumber, audio, dan video diverifikasi dari sumber resmi HPT Muhammadiyah.
+- `npm install` berhasil dijalankan untuk menyiapkan dependency front-end.
+- `npm run build` berhasil dan menghasilkan aset produksi di `public/build`.
+- Pemeriksaan syntax Blade/PHP untuk file view yang diubah berhasil tanpa error.
+- `php artisan test` belum dapat dijalankan di sandbox karena Composer tidak tersedia, sehingga folder `vendor` tidak bisa dibuat di lingkungan ini.

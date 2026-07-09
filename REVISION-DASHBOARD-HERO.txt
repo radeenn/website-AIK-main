@@ -1,4 +1,0 @@
-Perubahan dashboard/home terbaru:
-- Gambar utama dashboard (hero) diganti memakai gambar yang Anda kirim.
-- File disimpan di: public/images/hero-sholat.webp
-- Ukuran dioptimalkan agar tetap ringan.

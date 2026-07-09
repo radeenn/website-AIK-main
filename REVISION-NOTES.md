@@ -1,33 +1,17 @@
 # Catatan Revisi
 
-Perubahan yang sudah diterapkan:
+- Dashboard admin dan seluruh route admin dihapus dari aplikasi.
+- Navigasi dipangkas menjadi Beranda, Gerakan, dan Identitas.
+- Tampilan diubah menjadi lebih bersih, profesional, dan fokus pada materi.
+- Audio MP3 dari `audios.zip` dimasukkan ke `public/audios` dan dipakai oleh seeder.
+- Seeder disesuaikan dengan urutan gerakan pada modul: 13 gerakan, dua mode pengguna, dan bacaan terkait.
+- Autoplay berurutan ditambahkan pada halaman daftar dan detail gerakan.
+- Teks yang menyebut panel admin atau Google Text-to-Speech dibersihkan.
 
-1. Gambar gerakan diganti dengan gambar yang dikirim pengguna.
-   - Mode Dewasa: `public/images/gerakan/dewasa/`.
-   - Mode Anak-anak: `public/images/gerakan/anak-anak/`.
-2. Semua gambar gerakan dikonversi ke WebP dan disamakan canvas 4:3 agar tidak terlalu kecil atau terlalu besar.
-3. Seeder gerakan diperbarui agar memakai path gambar baru dari folder `public/images`.
-4. Bacaan sudah diisi teks Arab, transliterasi latin, terjemahan, dan arti singkat.
-5. Audio sementara menggunakan Google Text-to-Speech melalui URL pada kolom `audio_url`.
-6. Tampilan publik dibersihkan:
-   - Video gerakan tidak ditampilkan.
-   - Favorit tidak ditampilkan.
-   - Progress belajar tidak ditampilkan.
-   - Autoplay audio tidak ditampilkan.
-7. Halaman beranda, daftar gerakan, detail gerakan, tentang, dan panduan sudah disesuaikan dengan konten baru.
-8. Model `Gerakan` diperbarui agar bisa membaca gambar langsung dari folder `public/images` tanpa wajib `php artisan storage:link` untuk gambar bawaan.
+## Revisi Desain Lanjutan
 
-Setelah mengganti file lama dengan versi ini, jalankan ulang:
-
-```bash
-php artisan migrate:fresh --seed
-npm install
-npm run dev
-php artisan serve
-```
-
-Jika database lama tidak ingin dihapus, jalankan:
-
-```bash
-php artisan db:seed --class=KategoriGerakanSeeder
-```
+- Mengubah tampilan dari gaya terlalu clean/kotak-kotak menjadi visual yang lebih hangat, organik, dan tidak monoton.
+- Mengganti daftar gerakan menjadi alur belajar/timeline agar tidak terasa seperti kumpulan kartu kotak.
+- Memperkuat Mode Anak-anak dengan warna pastel, elemen bintang, bahasa tombol yang lebih ramah anak, panduan 3 langkah, dan tampilan gerakan yang lebih playful.
+- Merapikan panel bacaan agar tetap profesional tetapi tidak terlalu kaku: blok bacaan dibuat lebih mengalir dan audio player dibuat lebih ramah sentuh.
+- Header identitas tetap ada, tetapi dibuat lebih ringan agar tidak menambah kesan terlalu banyak kotak.

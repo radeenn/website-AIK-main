@@ -1,108 +1,64 @@
 # Tuntun Sholat
 
-Aplikasi Laravel untuk belajar tata cara sholat secara berurutan. Versi ini sudah disesuaikan dengan permintaan revisi: gambar gerakan diganti memakai gambar yang dikirim, ukuran gambar dibuat proporsional, bacaan Arab dan latin sudah diisi, audio sementara memakai Google Text-to-Speech, dan fitur publik yang tidak diperlukan seperti video, favorit, progress, dan autoplay sudah dibersihkan dari tampilan utama.
+Aplikasi Laravel untuk belajar tata cara sholat secara berurutan. Versi ini dibuat lebih bersih dan profesional: hanya ada halaman publik yang dibutuhkan, tanpa dashboard admin, tanpa fitur tambahan yang tidak diminta, dan audio bacaan sudah memakai file MP3 lokal di `public/audios`.
 
-## Fitur Utama
+## Fokus fitur
 
+- Beranda ringkas.
+- Daftar 13 gerakan sholat dari berdiri hingga salam.
+- Detail gerakan berisi gambar, deskripsi, bacaan Arab, transliterasi latin, terjemahan, dan audio.
 - Mode Dewasa dan Anak-anak.
-- 13 gerakan sholat berurutan.
-- Gambar gerakan format WebP agar lebih ringan.
-- Bacaan Arab, transliterasi latin, terjemahan, dan arti singkat.
-- Pemutar audio dengan tombol play, pause, durasi, dan volume.
-- Pencarian gerakan.
-- Panel admin untuk mengelola kategori, gerakan, dan bacaan.
+- Navigasi Next/Previous antar-gerakan.
+- Autoplay berurutan dari satu gerakan ke gerakan berikutnya.
+- Identitas kelompok tampil di header dan halaman Identitas.
+- Data konten tetap berasal dari database melalui migration dan seeder.
 
-## Cara Menjalankan di Laragon
+## Struktur audio
 
-1. Ekstrak project ke folder Laragon, misalnya:
+File audio berada di:
 
-```bash
-C:\laragon\www\website-AIK
+```text
+public/audios/
+├── 001_Al-Fatihah.mp3
+├── 112AlIkhlas.mp3
+├── bacaan-tasyawud-awal.mp3
+├── bacaan-tasyawud_akhir.mp3
+├── doa_iftitah.mp3
+├── duduk_antara_dua_sujud.mp3
+├── itidal.mp3
+├── rukuk.mp3
+├── salam.mp3
+├── sujud.mp3
+├── takbir_allahu_akbar.mp3
+└── thumaninah.mp3
 ```
 
-2. Masuk ke folder project:
+Path audio diisi melalui `database/seeders/KategoriGerakanSeeder.php` ke kolom `audio_url`.
 
-```bash
-cd C:\laragon\www\website-AIK
-```
-
-3. Install dependency PHP:
+## Instalasi lokal
 
 ```bash
 composer install
-```
-
-4. Salin file environment:
-
-```bash
-copy .env.example .env
-```
-
-5. Buat key aplikasi:
-
-```bash
-php artisan key:generate
-```
-
-6. Atur database di `.env`. Contoh SQLite:
-
-```env
-DB_CONNECTION=sqlite
-```
-
-Lalu buat file database:
-
-```bash
-type nul > database\database.sqlite
-```
-
-Contoh MySQL:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=website_aik
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-7. Jalankan migrasi dan seeder:
-
-```bash
-php artisan migrate:fresh --seed
-```
-
-8. Install dependency frontend dan jalankan Vite:
-
-```bash
 npm install
-npm run dev
-```
-
-9. Jalankan Laravel:
-
-```bash
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+npm run build
 php artisan serve
 ```
 
-Buka alamat yang muncul di terminal, biasanya:
+Buka aplikasi melalui URL yang muncul dari `php artisan serve`.
 
-```bash
-http://127.0.0.1:8000
-```
+## Halaman publik
 
-## Akun Admin Bawaan
+| URL | Fungsi |
+|---|---|
+| `/` | Beranda |
+| `/gerakan` | Daftar gerakan |
+| `/gerakan/{slug}` | Detail gerakan dan audio |
+| `/identitas` | Identitas kelompok |
+| `/mode/{kategori}` | Mengganti mode Dewasa/Anak-anak |
 
-```text
-Email: admin@tuntun-sholat.test
-Password: password
-```
+## Catatan modul
 
-## Catatan Audio
-
-Audio saat ini memakai URL Google Text-to-Speech sebagai audio sementara. Jika ingin audio bacaan yang lebih rapi, unggah file MP3 sendiri melalui admin pada menu Bacaan.
-
-## Catatan Konten
-
-Bacaan Arab dan latin sudah diisi agar website tidak kosong. Jika guru meminta redaksi HPT Muhammadiyah tertentu, sesuaikan kembali teks pada seeder atau melalui panel admin.
+Aplikasi mengikuti kebutuhan modul PjBL: responsif, data konten dari database, dua mode pengguna, gambar gerakan, teks Arab-Latin-terjemahan, audio MP3, navigasi Next/Previous, autoplay, dan identitas kelompok di halaman utama.

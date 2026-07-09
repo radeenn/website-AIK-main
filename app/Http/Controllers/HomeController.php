@@ -28,6 +28,6 @@ class HomeController extends Controller
         $slug = session('mode', 'dewasa');
 
         return Kategori::query()->where('slug', $slug)->first()
-            ?? Kategori::query()->orderBy('id')->first(); #ini untuk ini kalau misal session mode nya ga ada, maka akan mengambil kategori pertama yang ada di database
+            ?? Kategori::query()->orderBy('id')->first();
     }
 }

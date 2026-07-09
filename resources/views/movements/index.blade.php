@@ -3,27 +3,40 @@
 @section('title', 'Daftar Gerakan Sholat | Tuntun Sholat')
 
 @section('content')
+@php($isChildMode = ($activeModeSlug ?? 'dewasa') === 'anak-anak')
 <section class="container-shell section-space">
-    <div class="page-header reveal-section">
-        <div><span class="eyebrow">Belajar berurutan</span><h1>Daftar Gerakan Sholat</h1><p>Pilih gerakan untuk mempelajari posisi, bacaan Arab, transliterasi latin, arti, dan audio.</p></div>
-        <x-mode-switcher />
+    <div class="page-header">
+        <div>
+            <span class="eyebrow"><i data-lucide="{{ $isChildMode ? 'map' : 'list-checks' }}" class="h-4 w-4"></i> {{ $isChildMode ? 'Peta belajar' : 'Belajar berurutan' }}</span>
+            <h1>{{ $isChildMode ? 'Petualangan Gerakan Sholat' : 'Daftar Gerakan Sholat' }}</h1>
+            <p>{{ $isChildMode ? 'Pilih langkahnya satu per satu. Setiap halaman punya gambar, arti singkat, dan tombol audio agar belajar terasa ringan.' : 'Pilih gerakan untuk membuka gambar, bacaan Arab, transliterasi latin, terjemahan, dan audio MP3.' }}</p>
+            @if($isChildMode)
+                <div class="kid-guide" aria-label="Panduan belajar anak">
+                    <span>1. Lihat gambar</span>
+                    <span>2. Dengar audio</span>
+                    <span>3. Ikuti pelan-pelan</span>
+                </div>
+            @endif
+        </div>
+        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+            <x-mode-switcher />
+            @if($movements->first())
+                <a href="{{ route('movements.show', ['slug' => $movements->first()->slug, 'autoplay' => 1]) }}" class="btn-primary" onclick="sessionStorage.setItem('sholat.autoplay','1')">
+                    <i data-lucide="play" class="h-4 w-4"></i> {{ $isChildMode ? 'Putar Dari Awal' : 'Putar Berurutan' }}
+                </a>
+            @endif
+        </div>
     </div>
 
-    <form method="GET" action="{{ route('movements.index') }}" class="search-box mt-7">
-        <i data-lucide="search" class="h-5 w-5"></i>
-        <label class="sr-only" for="movement-search">Cari gerakan</label>
-        <input id="movement-search" name="q" value="{{ $search }}" type="search" placeholder="Cari gerakan sholat...">
-        @if($search)<a href="{{ route('movements.index') }}" class="icon-button"><span class="sr-only">Hapus pencarian</span><i data-lucide="x" class="h-4 w-4"></i></a>@endif
-        <button class="btn-primary" type="submit">Cari</button>
-    </form>
-
-    @if($search)<p class="mt-5 text-sm text-slate-600">Hasil pencarian untuk <strong>“{{ $search }}”</strong>: {{ $movements->count() }} gerakan.</p>@endif
-
-    <div id="daftar-gerakan" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="movement-path mt-9">
         @forelse($movements as $movement)
             <x-movement-card :movement="$movement" />
         @empty
-            <div class="empty-state sm:col-span-2 lg:col-span-4"><i data-lucide="search-x" class="h-12 w-12"></i><h2>Gerakan tidak ditemukan</h2><p>Coba gunakan kata pencarian yang lebih umum.</p><a href="{{ route('movements.index') }}" class="btn-primary">Tampilkan Semua</a></div>
+            <div class="empty-state">
+                <i data-lucide="list-x" class="h-12 w-12"></i>
+                <h2>Data gerakan belum tersedia</h2>
+                <p>Jalankan migration dan seeder agar data dari database tampil.</p>
+            </div>
         @endforelse
     </div>
 </section>

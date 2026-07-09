@@ -1,13 +1,61 @@
 @extends('layouts.app')
-@section('title', 'Tentang Kami | Tuntun Sholat')
+@section('title', 'Identitas Kelompok | Tuntun Sholat')
 @section('content')
 <section class="container-shell section-space">
-    <div class="page-header reveal-section"><div><span class="eyebrow">Tentang kami</span><h1>{{ $siteIdentity?->nama_kelompok ?? 'Kelompok Tuntun Sholat' }}</h1><p>Tim pengembang aplikasi Tuntun Sholat untuk mata kuliah {{ $siteIdentity?->mata_kuliah ?? 'Pengembangan Aplikasi Web' }}.</p></div><a href="https://github.com/username/tuntun-sholat" target="_blank" rel="noopener" class="btn-secondary"><i data-lucide="github" class="h-5 w-5"></i> Repositori GitHub</a></div>
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        @foreach($members as $member)
-            <article class="team-card reveal-section"><div class="team-avatar"><i data-lucide="user-round" class="h-8 w-8"></i></div><h2>{{ $member['nama'] }}</h2><p class="font-semibold text-emerald-700">{{ $member['nim'] }}</p><span>{{ $member['peran'] }}</span><p>{{ $member['kontribusi'] }}</p></article>
-        @endforeach
+    <div class="page-header">
+        <div>
+            <span class="eyebrow"><i data-lucide="users-round" class="h-4 w-4"></i> Identitas Proyek</span>
+            <h1>Kelompok dan Pembagian Peran</h1>
+            <p>Identitas ditampilkan sederhana sesuai modul: nama kelompok, anggota, NIM, peran, program studi, mata kuliah, dan dosen.</p>
+        </div>
+        <img src="{{ asset('images/logo-universitas.png') }}" alt="Logo Universitas Muhammadiyah Pontianak" class="team-logo">
     </div>
-    <div class="mt-8 rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm leading-7 text-amber-900"><strong>Catatan:</strong> Ganti placeholder nama anggota, NIM, kontribusi, serta tautan GitHub sebelum pengumpulan tugas.</div>
+
+    <div class="mt-8 grid gap-6 lg:grid-cols-[1fr_320px]">
+        <article class="team-table-panel">
+            <div class="team-panel-header">
+                <div>
+                    <span class="eyebrow">Anggota</span>
+                    <h2>{{ $siteIdentity?->nama_kelompok ?? 'Kelompok Kami' }}</h2>
+                </div>
+            </div>
+
+            <div class="team-table-wrap">
+                <table class="team-public-table">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Peran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($members as $member)
+                            <tr>
+                                <td>{{ $member->nama }}</td>
+                                <td>{{ $member->nim ?: '-' }}</td>
+                                <td>{{ $member->peran }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-slate-500">Data anggota belum diisi.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <aside class="team-info-panel">
+            <div class="grid place-items-center rounded-2xl bg-white p-5">
+                <img src="{{ asset('images/logo-universitas.png') }}" alt="Logo Universitas Muhammadiyah Pontianak" class="h-32 w-32 object-contain">
+            </div>
+            <div class="mt-5 grid gap-4 text-sm">
+                <div><small>Program Studi</small><strong>{{ $siteIdentity?->prodi ?? 'Sistem Informasi' }}</strong></div>
+                <div><small>Mata Kuliah</small><strong>{{ $siteIdentity?->mata_kuliah ?? 'Pengembangan Aplikasi Web' }}</strong></div>
+                <div><small>Dosen</small><strong>{{ $siteIdentity?->dosen ?? 'Belum diisi' }}</strong></div>
+            </div>
+        </aside>
+    </div>
 </section>
 @endsection

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,9 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'admin' => EnsureAdmin::class,
-        ]);
+        // Public learning application. No admin middleware is registered.
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Production error details are controlled by APP_DEBUG.

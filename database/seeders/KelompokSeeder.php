@@ -10,7 +10,7 @@ class KelompokSeeder extends Seeder
     public function run(): void
     {
         Kelompok::query()->updateOrCreate(
-            ['nama_kelompok' => 'Kelompok Tuntun Sholat'],
+            ['nama_kelompok' => 'Kelompok Kami'],
             [
                 'prodi' => 'Manajemen Bisnis Syariah',
                 'mata_kuliah' => 'Pengembangan Aplikasi Web / Praktikum Pemrograman Web',

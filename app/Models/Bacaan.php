@@ -30,8 +30,14 @@ class Bacaan extends Model
             return null;
         }
 
-        return Str::startsWith($this->audio_url, ['http://', 'https://'])
-            ? $this->audio_url
-            : Storage::disk('public')->url($this->audio_url);
+        if (Str::startsWith($this->audio_url, ['http://', 'https://'])) {
+            return $this->audio_url;
+        }
+
+        if (is_file(public_path($this->audio_url))) {
+            return asset($this->audio_url);
+        }
+
+        return Storage::disk('public')->url($this->audio_url);
     }
 }
